@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <input type="search" id="search-bar" required />
+      <button type="submit">Search</button>
+    </form>
+    <img src="#" />
+    <button class="refresh">Gimme a new cat!</button>
+    <script>
+      const img = document.querySelector("img");
+      const button = document.querySelector(".refresh");
+      button.addEventListener("click", getNewImage);
+      const searchBar = document.querySelector("#search-bar");
+      const form = document.querySelector("form");
+
+      function getNewImage() {
+        fetch(
+          "https://api.giphy.com/v1/gifs/translate?api_key=X4yCPpCKq15fjBjwue6t231lpZrKh9fo&s=cats"
+        )
+          .then(function (response) {
+            return response.json();
+          })
+          .then((response) => (img.src = response.data.images.original.url));
+      }
+
+      function searchImage(query) {
+        fetch(
+          `https://api.giphy.com/v1/gifs/translate?api_key=X4yCPpCKq15fjBjwue6t231lpZrKh9fo&s=${query}`
+        ).then(function (response) {
+            return response.json()
+        }).then(function(response) {
+            img.src = response.data.images.original.url
+        });
+      }
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        searchImage(searchBar.value);
+      });
+    </script>
+  </body>
+</html>
